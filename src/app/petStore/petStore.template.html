@@ -1,0 +1,102 @@
+<div class="pet-store-panel">
+    <div class="page-header-panel">
+        <h1 class="page-title">Pet Store</h1>
+    </div>
+    <div class="alert alert-danger"
+        data-ng-if="vm.errorMessage">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{vm.errorMessage}}
+    </div>
+    <div class="alert alert-success"
+        data-ng-if="vm.successMessage">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{vm.successMessage}}
+    </div>
+    <div class="col-xs-12" style="margin-bottom: 5px;">
+        <button class="col-xs-offset-11 col-xs-1 btn btn-primary fa fa-filter"
+            data-ng-disabled="vm.disableFilterButton"
+            data-ng-click="vm.showFilters = !vm.showFilters"
+            title="Pet Store Filters">
+            Filters
+        </button>
+    </div>
+    <div class="col-xs-12 table-responsive">
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th data-ng-repeat="feature in vm.petFeatures">{{feature.name}}</th>
+                <th>
+                    <button class="btn btn-primary fa fa-plus"
+                        data-ng-disabled="vm.isEditEnable"
+                        data-ng-if="vm.isAddEnable && !vm.showFilters"
+                        data-ng-click="vm.createNewPet()"
+                        title="Add New Pet">
+                    </button>
+                </th>
+            </tr>
+            <tr data-ng-if="!vm.isAddEnable">
+                <td data-ng-repeat="feature in vm.petFeatures">
+                    <input type="text"
+                        data-ng-if="feature.id == 'name' || feature.id == 'status' || feature.id == 'tag'"
+                        data-ng-model="vm.newPet[feature.id]"
+                        data-ng-required="true"/>
+                </td>
+                <td data-ng-if="!vm.isAddEnable">
+                    <span
+                        style="cursor: pointer; color: green; margin-right: 10px;"
+                        class="fa fa-check"
+                        data-ng-click="vm.validatePet(vm.newPet)"
+                        title="Edit Pet">
+                    </span>
+                    <span
+                        style="cursor: pointer; color: red;"
+                        class="fa fa-times"
+                        data-ng-click="vm.cancelNewPet()"
+                        title="Delete Pet">
+                    </span>
+                </td>
+            </tr>
+            <tr data-ng-if="vm.showFilters">
+                <td data-ng-repeat="feature in vm.petFeatures">
+                    <input type="text"
+                        data-ng-if="feature.id == 'id' || feature.id == 'name' || feature.id == 'status' || feature.id == 'tag'"
+                        data-ng-model="vm.searchPet[feature.id]"
+                        data-ng-change = "vm.filterPetStore(feature.id)"
+                        data-ng-required="true"/>
+                </td>
+            </tr>
+            <tr data-ng-repeat="pet in vm.pets">
+                <td data-ng-repeat="feature in vm.petFeatures" >
+                    <span data-ng-if="!pet.isEdit">{{pet[feature.id]}}</span>
+                    <a style="cursor: pointer"
+                        data-ng-click="vm.openFileUpload(pet)"
+                        data-ng-if="vm.isAddEnable && feature.id == 'uploadLink'">
+                        Upload Image
+                    </a>
+                    <a style="cursor: pointer"
+                        data-ng-click="vm.getImage(pet)"
+                        data-ng-if="vm.isAddEnable && feature.id == 'downloadLink'">
+                        Download Image
+                    </a>
+                    <input type="text"
+                        data-ng-if="pet.isEdit && vm.openPetInEditMode(feature)"
+                        data-ng-model="pet[feature.id]"
+                        data-ng-required="true"/>
+                </td>
+                <td>
+                    <span data-ng-if="vm.isAddEnable"
+                        style="cursor: pointer; color: green; margin-right: 10px;"
+                        data-ng-class="!pet.isEdit ? 'fa fa-pencil-square-o' : 'fa fa-check'"
+                        data-ng-click="vm.enableEditOrSave(pet)"
+                        title="Edit Pet">
+                    </span>
+                    <span data-ng-if="vm.isAddEnable"
+                        style="cursor: pointer; color: red;"
+                        data-ng-class="!pet.isEdit ? 'fa fa-trash-o' : 'fa fa-times'"
+                        data-ng-click="vm.enableDeleteOrCancel(pet)"
+                        title="Delete Pet">
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

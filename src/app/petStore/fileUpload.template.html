@@ -1,0 +1,32 @@
+<div style="padding: 10px 10px;">
+    <div class="alert alert-danger"
+        data-ng-if="vm.errorMessage">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{vm.errorMessage}}
+    </div>
+    <div class="alert alert-success"
+        data-ng-if="vm.successMessage">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{vm.successMessage}}
+    </div>
+    <input type = "file"
+        style="margin-bottom: 10px; padding: 5px;"
+        file-upload = "vm.myFile">
+        <button data-ng-click = "vm.uploadFile(true)"
+            class="btn btn-primary"
+            data-ng-if="vm.isImageAlreadyExist"
+            style="padding: 5px; margin-left: 5px; display:inline-block; width: 150px;">
+            Continue
+        </button>
+        <button data-ng-click = "vm.validateFile(false)"
+            class="btn btn-primary"
+            data-ng-disabled="vm.isImageAlreadyExist"
+            style="padding: 5px; margin-left: 5px; display:inline-block; width: 150px;">
+            Upload
+        </button>
+        <button class="btn btn-default"
+            style="padding: 5px; margin-left: 5px; display:inline-block;  width: 150px;"
+            data-ng-click = "vm.closeFileUpload()">
+            Close
+        </button>
+</div>
